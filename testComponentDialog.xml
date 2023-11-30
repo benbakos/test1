@@ -1,0 +1,38 @@
+<myComponent
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    ...
+>
+    <items
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container"
+    >
+        <fields
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/form/multifield"
+            fieldLabel="Options"
+            name="./options"
+            ...
+        >
+            <field
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/form/fieldset"
+            >
+                <name
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                    fieldLabel="Name"
+                    name="./name"
+                    ...
+                />
+                <value
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/form/textfield"
+                    fieldLabel="Value"
+                    name="./value"
+                    ...
+                />
+            </field>
+        </fields>
+    </items>
+</myComponent>

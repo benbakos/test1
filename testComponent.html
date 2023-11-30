@@ -1,0 +1,8 @@
+<sly data-sly-use.model="myComponentModel.js">
+    <select>
+        <option value="">Select an option</option>
+        <sly data-sly-list="${model.options}" var="option">
+            <option value="${option.value}">${option.name}</option>
+        </sly>
+    </select>
+</sly>
