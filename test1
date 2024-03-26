@@ -1,1 +1,31 @@
-test1
+function checkPasswordAutoFilled(passwordFieldId, callback) {
+    const passwordField = document.getElementById(passwordFieldId);
+
+    if (!passwordField) {
+        console.error('Password field not found');
+        return;
+    }
+
+    // Wait for a reasonable time to allow auto-fill to occur
+    // Adjust the delay based on your observations of different browsers and password managers
+    const delayInMillis = 500; // Example: 500 milliseconds
+
+    setTimeout(() => {
+        // Check if the password field has a value
+        if (passwordField.value) {
+            // Consider it auto-filled if there's a value
+            callback(true);
+        } else {
+            callback(false);
+        }
+    }, delayInMillis);
+}
+
+// Usage
+checkPasswordAutoFilled('myPasswordFieldId', (isAutoFilled) => {
+    if (isAutoFilled) {
+        console.log('Password field was populated, possibly by a password manager.');
+    } else {
+        console.log('Password field was not populated automatically.');
+    }
+});
