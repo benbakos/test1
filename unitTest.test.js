@@ -1,40 +1,48 @@
-// Import the function to be tested
-const animateCardDetails = require('./path/to/your/script');
+// Import the function or code snippet you want to test
+const { updateCardBackground } = require('./yourScriptFile');
 
-describe('animateCardDetails function', () => {
-    let mockContainer1, mockContainer2, mockContainer3;
+describe('updateCardBackground function', () => {
+  test('it should update the background image of card elements with images', () => {
+    // Mocking DOM elements
+    document.body.innerHTML = `
+      <div class="cmp-container__card-with-image">
+        <div class="cmp-contentblock">
+          <div class="cmp-contentblock__image">
+            <img src="example.jpg">
+          </div>
+          <div class="cmp-image"></div>
+        </div>
+      </div>
+    `;
 
-    beforeEach(() => {
-        // Set up the mock containers
-        mockContainer1 = document.createElement('div');
-        mockContainer1.classList.add('cmp-container__card-details');
-        document.body.appendChild(mockContainer1);
+    // Run the function to be tested
+    updateCardBackground();
 
-        mockContainer2 = document.createElement('div');
-        mockContainer2.classList.add('cmp-container__card-details');
-        document.body.appendChild(mockContainer2);
+    // Assertions
+    const contentBlockEl = document.querySelector('.cmp-container__card-with-image .cmp-contentblock');
+    expect(contentBlockEl.classList.contains('cq-dd-image')).toBe(false);
+    expect(contentBlockEl.querySelector('.cmp-image').style.height).toBe('200px');
+    expect(contentBlockEl.querySelector('.cmp-image img')).toBe(null);
+    expect(contentBlockEl.querySelector('.cmp-contentblock__image').style.backgroundSize).toBe('cover');
+    expect(contentBlockEl.querySelector('.cmp-contentblock__image').style.marginBottom).toBe('20px');
+  });
 
-        mockContainer3 = document.createElement('div');
-        mockContainer3.classList.add('cmp-container__card-details');
-        document.body.appendChild(mockContainer3);
-    });
+  test('it should not update any elements if there are no card elements with images', () => {
+    // Mocking DOM elements
+    document.body.innerHTML = `
+      <div class="cmp-container__card-without-image">
+        <div class="cmp-contentblock"></div>
+      </div>
+    `;
 
-    afterEach(() => {
-        // Clean up the mock containers
-        document.body.removeChild(mockContainer1);
-        document.body.removeChild(mockContainer2);
-        document.body.removeChild(mockContainer3);
-    });
+    // Run the function to be tested
+    updateCardBackground();
 
-    test('should add animation class to card details when scrolled or moved', () => {
-        // Simulate scrolling or moving
-        document.dispatchEvent(new Event('mousemove'));
-        document.dispatchEvent(new Event('wheel'));
-        document.dispatchEvent(new KeyboardEvent('keydown'));
-
-        // Check if animation class is added to mock containers
-        expect(mockContainer1.classList.contains('cmp-container__card-details-animate')).toBe(true);
-        expect(mockContainer2.classList.contains('cmp-container__card-details-animate')).toBe(true);
-        expect(mockContainer3.classList.contains('cmp-container__card-details-animate')).toBe(true);
-    });
+    // Assertions
+    expect(document.querySelector('.cmp-container__card-without-image .cmp-contentblock').classList.contains('cq-dd-image')).toBe(undefined);
+    expect(document.querySelector('.cmp-container__card-without-image .cmp-contentblock .cmp-image').style.height).toBe('');
+    expect(document.querySelector('.cmp-container__card-without-image .cmp-contentblock .cmp-image img')).toBe(null);
+    expect(document.querySelector('.cmp-container__card-without-image .cmp-contentblock .cmp-contentblock__image').style.backgroundSize).toBe('');
+    expect(document.querySelector('.cmp-container__card-without-image .cmp-contentblock .cmp-contentblock__image').style.marginBottom).toBe('');
+  });
 });
