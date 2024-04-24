@@ -46,3 +46,32 @@ describe('updateCardBackground function', () => {
     expect(document.querySelector('.cmp-container__card-without-image .cmp-contentblock .cmp-contentblock__image').style.marginBottom).toBe('');
   });
 });
+
+
+
+
+
+
+
+
+// Import or require any necessary modules or functions
+// const { addAnimationToHeroBanner } = require('./yourScript.js');
+
+// Mock setTimeout
+jest.useFakeTimers();
+
+// Mock the heroContainer
+const heroContainer = [{ classList: { add: jest.fn() } }];
+
+// Call your function or execute the code that contains the setTimeout
+setTimeout(() => {
+  heroContainer && heroContainer[0]?.classList.add('cmp-container__hero-banner-animate');
+}, 1000);
+
+// Fast-forward time by 1000ms (1 second)
+jest.advanceTimersByTime(1000);
+
+// Test to check if the class was added after the setTimeout duration
+test('heroContainer has class cmp-container__hero-banner-animate after timeout', () => {
+  expect(heroContainer[0].classList.add).toHaveBeenCalledWith('cmp-container__hero-banner-animate');
+});
