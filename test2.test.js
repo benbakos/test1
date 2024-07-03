@@ -1,56 +1,63 @@
 const $ = require('jquery');
 
-document.body.innerHTML = `
-  <div class="cmp-tabs__tablist">
-    <li aria-controls="tab1-panel"></li>
-    <li aria-controls="tab2-panel"></li>
-  </div>
-  <div id="tab1-tab"></div>
-  <div id="tab2-tab"></div>
-  <div id="tab1-panel"></div>
-  <div id="tab2-panel"></div>
-  <div class="pnc-demos"></div>
-`;
+describe('DOM Manipulation Tests', () => {
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <div class="cmp-tabs__tablist">
+        <li aria-controls="tab1-panel"></li>
+        <li aria-controls="tab2-panel"></li>
+      </div>
+      <div id="tab1-tab"></div>
+      <div id="tab2-tab"></div>
+      <div id="tab1-panel"></div>
+      <div id="tab2-panel"></div>
+      <div class="pnc-demos"></div>
+    `;
+  });
 
-// Code under test
-(function (document, $) {
-  "use strict";
-
-  var tabs = document.querySelectorAll(".cmp-tabs__tablist > li");
-  if(tabs && tabs.length > 0) {
-    for (var i = 0; i < tabs.length; i++) {
-      var el = tabs[i].getAttribute('aria-controls');
-      if(el){
-        var e = document.getElementById(el.split('tabpanel')[0].slice(0,-1)+"-tab");
-        e.setAttribute('aria-labelledby', e.id);
+  function updateAriaLabelledby() {
+    var tabs = document.querySelectorAll(".cmp-tabs__tablist > li");
+    if (tabs && tabs.length > 0) {
+      for (var i = 0; i < tabs.length; i++) {
+        var el = tabs[i].getAttribute('aria-controls');
+        if (el) {
+          var e = document.getElementById(el.split('tabpanel')[0].slice(0, -1) + "-tab");
+          if (e) {
+            e.setAttribute('aria-labelledby', e.id);
+          }
+        }
       }
     }
   }
 
-  var ids = document.querySelectorAll('[id]');
-  if(ids && ids.length > 0){
-    ids.forEach(function(e) {
-      try {
-        var el = $('[id='+e.id+']');
-        if(el && el.length > 1){
-          document.getElementById(e.id).id = e.id + '_1';
+  function ensureUniqueIds() {
+    var ids = document.querySelectorAll('[id]');
+    if (ids && ids.length > 0) {
+      ids.forEach(function (e) {
+        try {
+          var el = $('[id=' + e.id + ']');
+          if (el && el.length > 1) {
+            document.getElementById(e.id).id = e.id + '_1';
+          }
+        } catch {
+          // Ignore errors
         }
-      }
-      catch {
-        // Ignore errors
-      }
-    });
+      });
+    }
   }
 
-  var main = document.getElementsByClassName("pnc-demos");
-  if(main && main.length > 0) {
-    main[0].setAttribute("role", "main");
+  function setMainRole() {
+    var main = document.getElementsByClassName("pnc-demos");
+    if (main && main.length > 0) {
+      main[0].setAttribute("role", "main");
+    }
   }
 
-})(document, $);
+  // Execute functions
+  updateAriaLabelledby();
+  ensureUniqueIds();
+  setMainRole();
 
-// Jest tests
-describe('DOM Manipulation Tests', () => {
   test('should set aria-labelledby attributes correctly', () => {
     const tab1 = document.getElementById('tab1-tab');
     const tab2 = document.getElementById('tab2-tab');
